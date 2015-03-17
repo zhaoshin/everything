@@ -2111,10 +2111,13 @@ int numDecodings(string s) {
 }
 
 // subsets.
+// permutation
 // no duplicates
 void generateSub(vector<int> &s, int step, vector<vector<int>> &result,vector<int> output)
 {
-    //    result.push_back(output);
+    if (step == s.size()) {
+        result.push_back(output);
+    }
     
     for(int i = step;i<s.size(); i++ )
     {
@@ -2277,7 +2280,7 @@ void printMaxSubSquare(vector<vector<bool>> m) {
     for (int i = 1; i < r; i++) {
         for (int j = 1; j < c; j++) {
             if (m[i][j]) {
-                s[i][j] = min(s[i][j-1], s[i-1][j], s[i-1][j-1]) + 1;
+                s[i][j] = min(min(s[i][j-1], s[i-1][j]), s[i-1][j-1]) + 1;
             } else {
                 s[i][j] = 0;
             }
@@ -2353,6 +2356,18 @@ int removeDup(int a[], int n) {
     int end = 1; // *
     for (int i = 2; i < n; i++) { // *
         if (a[i] != a[end-1]) {
+            a[++end] = a[i];
+        }
+    }
+    return end + 1;
+}
+
+// remove duplicate
+// all
+int removeDuplicates(int a[], int n) {
+    int end = 0;
+    for (int i = 1; i < n; i++) {
+        if (a[i] != a[end]) {
             a[++end] = a[i];
         }
     }
@@ -2651,6 +2666,35 @@ bool canJump(int a[], int n) {
     return false;
 }
 
+// jump steps
+int jump(int a[], int n) {
+    if (n == 0 || n == 1)
+        return 0;
+    
+    int m = 0;
+    int i = 0;
+    int njump = 0;
+    
+    while (i < n) {
+        m = max(m, a[i] + i);
+        if (m > 0) {
+            njump ++;
+        }
+        if (m >= n-1) {
+            return njump;
+        }
+        
+        int tmp = 0;
+        for (int j = i + 1; j <= m; j++) {
+            if (j + a[j] > tmp) {
+                tmp = a[j] + j;
+                i = j;
+            }
+        }
+    }
+    return njump;
+}
+
 vector<int> spiralOrder(vector<vector<int> > &matrix) {
     // Start typing your C/C++ solution below
     // DO NOT write int main() function
@@ -2742,8 +2786,61 @@ int totalQueens(int n) {
 }
 
 
+// print all anagrams together.
+struct anagram {
+    string s;
+    int index;
+};
+
+bool compareAnagram(anagram a, anagram b) {
+    return (a.s.compare(b.s) >= 1);
+}
+
+void printAnagram(vector<string> arr) {
+    int n = arr.size();
+    
+    vector<anagram> p;
+    
+    for (int i = 0; i < n; i++) {
+        anagram word;
+        word.s = arr[i];
+        word.index = i;
+        p.push_back(word);
+        std::sort(word.s.begin(), word.s.end());
+    }
+    
+    std::sort(p.begin(), p.end(), compareAnagram);
+    for (int i = 0; i < n; i++)
+        cout << arr[p[i].index] << endl;
+}
+
+// rotate an image
+// flip diagonally
+// flip vertically
+void rotate(vector<vector<int>> matrix) {
+    int len = matrix[0].size();
+    
+    for (int i = 0; i < len - 1; i++) {
+        for (int j = 0; j < len - i; j++) {
+            swap(matrix[i][j], matrix[len - 1 - j][len - 1 - i]);
+        }
+    }
+    
+    for (int i = 0; i < len / 2; i++) {
+        for (int j = 0; j < len; j++) {
+            swap(matrix[i][j], matrix[len - i - 1][j]);
+        }
+    }
+}
+
 int main() {
-    subsets("abc", 0, "");
+    int a[] = {1, 1, 1, 2, 2, 2, 3, 3, 4, 4, 4, 4};
+    
+    int n = removeDup(a, 12);
+    
+    for (int i = 0; i < n; i++) {
+        cout <<a[i] << "\t";
+    }
     
     return 0;
 }

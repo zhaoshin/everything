@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EC6190CA1AB63C690028160C /* more.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EC6190C91AB63C690028160C /* more.cpp */; };
 		EC800EBD1AAC148700F57880 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EC800EBC1AAC148700F57880 /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -24,6 +25,7 @@
 
 /* Begin PBXFileReference section */
 		EC5635F81AAD5F4100F84931 /* medianStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = medianStream.h; sourceTree = "<group>"; };
+		EC6190C91AB63C690028160C /* more.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = more.cpp; sourceTree = "<group>"; };
 		EC800EB91AAC148700F57880 /* Everything */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Everything; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC800EBC1AAC148700F57880 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -60,6 +62,7 @@
 			children = (
 				EC800EBC1AAC148700F57880 /* main.cpp */,
 				EC5635F81AAD5F4100F84931 /* medianStream.h */,
+				EC6190C91AB63C690028160C /* more.cpp */,
 			);
 			path = Everything;
 			sourceTree = "<group>";
@@ -120,6 +123,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC6190CA1AB63C690028160C /* more.cpp in Sources */,
 				EC800EBD1AAC148700F57880 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
