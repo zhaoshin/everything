@@ -77,6 +77,7 @@ int findFirstMissingPositive(int a[], int n) {
     return n+1;
 }
 
+// volume
 // trap rain water
 // trap water
 // container water
@@ -529,16 +530,22 @@ bool isMatch_regularExpression(char *s, char *p) {
     for (int i = 0; i <=m; i++) {
         for (int j = 1; j <= n; j++) {
             if (p[j-1] != '.' && p[j-1] != '*') {
+                             // same char        // prev dp is true
                 if (i > 0 && s[i-1] == p[j-1] && dp[i - 1][j - 1]) {
                     dp[i][j] = true;
                 }
+                       // dot match anything
             } else if (p[j-1] == '.') {
+                             // prev dp is true
                 if (i > 0 && dp[i-1][j-1]) {
                     dp[i][j] = true;
                 }
+                                // prev is *star
             } else if (j > 1 && p[j-1] == '*') { // dealing with the '*' case
+                // p prev, or p prevprev is true
                 if (dp[i][j-1] || dp[i][j-2]) {
                     dp[i][j] = true;
+                                   //prev prev match                      // i-1 match
                 } else if (i>0 && (p[j-2] == s[i-1] || p[j-2] == '.') && dp[i-1][j]) {
                     dp[i][j] = true;
                 }

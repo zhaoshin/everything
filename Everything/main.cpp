@@ -19,6 +19,21 @@
 
 using namespace std;
 
+
+void print_vector(vector<string>v) {
+    for (auto i : v) {
+        cout << i << "\t";
+    }
+    cout << endl;
+}
+
+void print_set(set<string> dict) {
+    for (auto i : dict) {
+        cout << i << "\t";
+    }
+    cout << endl;
+}
+
 //Synchronized methods enable a simple strategy for preventing thread interference and memory consistency errors: if an object is visible to more than one thread, all reads or writes to that object's variables are done through synchronized methods.
 //import java.io.PrintWriter;
 //public class Logger
@@ -135,7 +150,7 @@ bool isAnagram(string str1, string str2) {
     
     for (int i = 0; i < str1.length(); i++) {
         letter_count[str1[i]]++;
-        letter_count[str2[i]]++;
+        letter_count[str2[i]]--;
     }
     
     for (int i = 0; i < str1.length(); i++) {
@@ -163,17 +178,22 @@ void subsets(string str, int start, string curr) {
 // iterative
 vector<vector<char>> subsets(vector<char> set) {
     vector<vector<char>> subsets;
+    // first we have the empty set
     subsets.push_back(vector<char>());
     for (char o : set) {
         vector<vector<char>>tmp;
         
+        // push subsets into tmp
         for (vector<char> s : subsets) {
             tmp.push_back(s);
         }
         
+        // put current char into every tmp
         for (vector<char> s : tmp) {
             s.push_back(o);
         }
+        
+        // append this new tmp into subsets
         subsets.insert(subsets.end(), tmp.begin(), tmp.end());
     }
     
@@ -957,6 +977,7 @@ int find_max(int freq[], bool excep[]) {
     return max_i;
 }
 
+
 // reorder string d distance apart
 void create(char* str, int d, char ans[]) {
     int n = strlen(str);
@@ -1242,25 +1263,6 @@ bool twoSum(vector<int> array, int target) {
     }
     
     return  false;
-}
-
-// find the maximum in a sliding window of size
-void maxSlidingWindow(int A[], int n, int w, int B[]) {
-    deque<int> Q;
-    for (int i = 0; i < w; i++) {
-        while (!Q.empty() && A[i] >= A[Q.back()])
-            Q.pop_back();
-        Q.push_back(i);
-    }
-    for (int i = w; i < n; i++) {
-        B[i-w] = A[Q.front()];
-        while (!Q.empty() && A[i] >= A[Q.back()])
-            Q.pop_back();
-        while (!Q.empty() && Q.front() <= i-w)
-            Q.pop_front();
-        Q.push_back(i);
-    }
-    B[n-w] = A[Q.front()];
 }
 
 // find the majority element
@@ -1866,6 +1868,90 @@ int numDistinct(string s, string t) {
 }
 
 // word ladder
+class wordLadderAllSolution {
+public:
+    map<string,vector<string>> mp; // result map
+    vector<vector<string> > res;
+    vector<string> path;
+    
+    void findDict(string str, set<string> &dict,set<string> &next_lev){
+        int sz = str.size();
+        string s = str;
+        for (int i=0;i<sz;i++){
+            s = str;
+            for (char j = 'a'; j<='z'; j++){
+                s[i]=j;
+                if (dict.find(s)!=dict.end()){
+                    next_lev.insert(s);
+                    mp[s].push_back(str);
+                }
+            }
+        }
+    }
+    
+    void output(string &start,string last){
+        if (last==start){
+            reverse(path.begin(),path.end());
+            res.push_back(path);
+            reverse(path.begin(),path.end());
+        }else{
+            cout << last << endl;
+            for (int i=0;i<mp[last].size();i++){
+                print_vector(mp[last]);
+                path.push_back(mp[last][i]);
+                output(start,mp[last][i]);
+                path.pop_back();
+            }
+        }
+    }
+    
+    vector<vector<string>> findLadders(string start, string end, set<string> &dict) {
+        mp.clear();
+        res.clear();
+        path.clear();
+        
+        dict.insert(start);
+        dict.insert(end);
+        
+        set<string> cur_lev;
+        cur_lev.insert(start);
+        set<string> next_lev;
+        path.push_back(end);
+        
+        
+        while (true){
+            //delete previous level words
+            for (auto it = cur_lev.begin();it!=cur_lev.end();it++){
+                dict.erase(*it);
+            }
+            
+            //find current level words that are one distance apart
+            //and push it into next_lev
+            for (auto it = cur_lev.begin();it!=cur_lev.end();it++){
+                findDict(*it, dict, next_lev);
+            }
+            
+            if (next_lev.empty()){
+                return res;
+            }
+            
+            // the end now exist within the next level
+            if (next_lev.find(end)!=next_lev.end()){ //if find end string
+                output(start,end);
+                return res;
+            }
+            
+            // move to the next level
+            cur_lev.clear();
+            cur_lev = next_lev;
+            next_lev.clear();
+            
+        }
+        return res;
+    }
+};
+
+// word ladder
 // transform s to t one letter at a time while matching dictionary
 bool valid(string s, string t) {
     bool flag = false;
@@ -1904,7 +1990,6 @@ int ladderLength(string start, string end, set<string> dict) {
     }
     while (!q.empty() && !rq.empty()){
         
-        
         if (q.size()<rq.size()){
             while (!q.empty() && q.front().lev==level){
                 for (auto it=dict.begin();it!=dict.end();it++){
@@ -1918,7 +2003,6 @@ int ladderLength(string start, string end, set<string> dict) {
             }
             level++;
         }else{
-            
             while (!rq.empty() && rq.front().lev==rlevel){
                 for (auto it=dict.begin();it!=dict.end();it++){
                     if (!rmark[*it] && valid(*it,rq.front().str)){
@@ -2346,6 +2430,22 @@ int rotatedBinarySearch(int a[], int n, int element) {
     return -1;
 }
 
+// find minimum in rotated array
+// find min in rotated array
+//int findMin(int arr[], int low, int high) {
+//    if (high == low) return arr[low];
+//    
+//    int mid = low + (high - low)/2;
+//    
+//    if (mid < high && arr[mid + 1] < arr[mid]) return arr[mid+1];
+//    
+//    if (mid > low && arr[mid-1] > arr[mid]) return arr[mid];
+//    
+//    if (arr[high] > arr[mid]) return findMin(arr, low, mid-1);
+//        
+//    return findMin(arr, mid+1, low);
+//}
+
 // remove duplicate from array
 // keep at most two
 int removeDup(int a[], int n) {
@@ -2513,6 +2613,7 @@ string simplifyPath(string path) {
 // regex
 // valid number
 // check if number is valid
+// validnumber
 bool isNumber(string s) {
     // [-+]?(\d+\.?|\.\d+)\d*(e[-+]?\d+)?
     
@@ -2605,7 +2706,7 @@ struct Interval {
     Interval(int s, int e) : start(s), end(e) {}
 };
 
-vector<Interval> insert(vector<Interval> intervals, Interval newInterval) {
+vector<Interval> insertInterval(vector<Interval> intervals, Interval newInterval) {
     vector<Interval> res;
     vector<Interval> :: iterator it;
     for (it = intervals.begin(); it != intervals.end(); it++) {
@@ -2633,7 +2734,7 @@ bool myfunc(const Interval &a, const Interval &b){
     return (a.start < b.start);
 }
 
-vector<Interval> merge(vector<Interval> intervals) {
+vector<Interval> mergeInterval(vector<Interval> intervals) {
     vector<Interval> res;
     
     sort(intervals.begin(), intervals.end(), myfunc);
@@ -2833,14 +2934,44 @@ void rotate(vector<vector<int>> matrix) {
     }
 }
 
-int main() {
-    int a[] = {1, 1, 1, 2, 2, 2, 3, 3, 4, 4, 4, 4};
+
+// multiply divisor(f) by 2
+// multiply c = 1 by 2
+//
+// while dividend(f) greater than divisor
+// // while dividend(f) > divisor(f) , dividend(f) -= divisor(f), res += c
+// reduce divisor(f), c by 2
+
+int divide(int dividend, int divisor) {
+    // Start typing your C/C++ solution below
+    // DO NOT write int main() function
+    int sign = 1;
+    if (dividend<0){sign = -sign;}
+    if (divisor<0){sign = -sign;}
     
-    int n = removeDup(a, 12);
+    unsigned long long tmp = abs((long long)dividend);
+    unsigned long long tmp2 = abs((long long)divisor);
     
-    for (int i = 0; i < n; i++) {
-        cout <<a[i] << "\t";
+    unsigned long c = 1;
+    while (tmp>tmp2){
+        tmp2 <<= 1;
+        c = c<<1;
     }
     
+    int res = 0;
+    while (tmp>=abs((long long)divisor)){
+        while (tmp>=tmp2){
+            tmp -= tmp2;
+            res += c;
+        }
+        tmp2 >>= 1;
+        c >>= 1;
+    }
+    
+    return sign*res;
+}
+
+int main() {
+    divide(15, 3);
     return 0;
 }
