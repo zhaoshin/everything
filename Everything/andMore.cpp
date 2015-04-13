@@ -53,6 +53,29 @@ void removeDuplicate(char *str) {
     str[tail] = '\0';
 }
 
+void removeDup_withoutExtra(char *str){
+    int len = strlen(str);
+    if (len < 2) {
+        return;
+    }
+    
+    int tail = 1;
+    
+    for (int i = 1; i < len; i++) {
+        int j;
+        for (j = 0; j < tail; j++) {
+            if (str[i] == str[j]) {
+                break;
+            }
+        }
+        
+        if (j == tail) {
+            str[tail++] = str[i];
+        }
+    }
+    str[tail] = 0;
+}
+
 // prime sieve
 void markPrime(vector<bool> arr, int a) {
     int i = 2;
@@ -78,7 +101,7 @@ void primeSeive(int n) {
 }
 
 // array mutiplication
-void array_multi(int a[], int output[], int n) {
+void array_multiplication(int a[], int output[], int n) {
     int left = 1;
     int right = 1;
     for (int i = 0; i < n; i++) {
@@ -87,7 +110,7 @@ void array_multi(int a[], int output[], int n) {
     
     for (int i = 0; i < n; i++) {
         output[i] *= left;
-        output[n - i - 1] += right;
+        output[n - i - 1] *= right;
         left *= a[i];
         right *= a[n - i - 1];
     }
@@ -129,6 +152,34 @@ int coinChange(vector<int> coins, int change) {
     return res[change];
 }
 
+// knapsack
+int knapSack(int W, int wt[], int val[], int n) {
+    int i, w;
+    int dp[n+1][W+1];
+    
+    for (i = 0; i<=n; i++) {
+        for (w = 0; w <= W; w++) {
+            if (i == 0 || w==0) {
+                dp[i][w] = 0;
+            } else if (wt[i-1] <= w) {
+                dp[i][w] = max(val[i-1] + dp[i-1][w-wt[i-1]], dp[i-1][w]);
+            } else {
+                dp[i][w] = dp[i-1][w];
+            }
+        }
+    }
+    return dp[n][W];
+}
+
+void randomize ( int arr[], int n )
+{
+    for (int i = n-1; i > 0; i--)
+    {
+        int j = rand() % (i+1);
+//        swap(&arr[i], &arr[j]);
+    }
+}
+
 // intersect
 // overlap
 vector<int> overlap(int a[], int m, int b[], int n) {
@@ -156,6 +207,8 @@ int getMax(int a, int b) {
 }
 
 // same count
+// TODO
+// next ith same count
 unsigned nexthi_same_count_ones(unsigned a) {
     /* works for any word length */
     unsigned c = (a & -a);
@@ -173,6 +226,7 @@ string preProcess(string s) {
     return res;
 }
 
+//TODO
 string longestPalindrome(string s) {
     string T = preProcess(s);
     int n = (int) T.length();
@@ -187,8 +241,6 @@ string longestPalindrome(string s) {
         while (T[i + 1 + P[i]] == T[i - 1 - P[i]])
             P[i]++;
         
-        // If palindrome centered at i expand past R,
-        // adjust center based on expanded palindrome.
         if (i + P[i] > R) {
             C = i;
             R = i + P[i];
@@ -211,7 +263,7 @@ string longestPalindrome(string s) {
 
 bool isPalindrome(int x) {
     int power = 1;
-    while (x / power *10 > 0) {
+    while (x / power * 10 > 0) {
         power*=10;
     }
     
@@ -242,6 +294,27 @@ void primeFactors(int n) {
     }
     if (n>2) {
         cout << 2 << endl;
+    }
+}
+
+// print all factors
+// print factors
+void printFactors(int number, string parentFactor, int parentVal) {
+    int newVal = parentVal;
+    
+    for ( int i = number - 1; i >= 2; i--) {
+        if (number % i == 0) {
+            if (i < newVal) {
+                newVal = i;
+            }
+            if (number/i <= parentVal && i<=parentVal && number/i <= i) {
+                cout << parentFactor << i << "*" << number/i << endl;
+                newVal = number/i;
+            }
+            if (i <= parentVal) {
+                printFactors(number/i, parentFactor+to_string(i)+'*', newVal);
+            }
+        }
     }
 }
 
@@ -291,6 +364,16 @@ int kthSmallest(int a[], int m, int b[], int n, int k) {
         return kthSmallest(a + i + 1, m - i - 1, b, n, k - i - 1);
     } else {
         return kthSmallest(a, m, b + j + 1, n - i - 1, k - j - 1);
+    }
+}
+
+// get median of two sorted array
+// get median of two array
+int getMedianOfTwoArray(int a[], int m, int b[], int n) {
+    if ((n+m)%2 == 0) {
+        return (kthSmallest(a, m, b, n, (m+n)/2) + kthSmallest(a, m, b, n, (m+n)/2+1))/2;
+    } else {
+        return kthSmallest(a, m, b, n, (m+n)/2 + 1);
     }
 }
 
@@ -388,7 +471,6 @@ bool isMatch(char *str, const char* pattern) {
 
 // replace with x
 
-
 void replace(char str[], const char *pattern) {
     if (str == NULL || pattern == NULL) return;
     char *pSlow = str, *pFast = str;
@@ -412,6 +494,46 @@ void replace(char str[], const char *pattern) {
 }
 
 // fibernacci
+void multiply(int F[2][2], int M[2][2])
+{
+    int x =  F[0][0]*M[0][0] + F[0][1]*M[1][0];
+    int y =  F[0][0]*M[0][1] + F[0][1]*M[1][1];
+    int z =  F[1][0]*M[0][0] + F[1][1]*M[1][0];
+    int w =  F[1][0]*M[0][1] + F[1][1]*M[1][1];
+    
+    F[0][0] = x;
+    F[0][1] = y;
+    F[1][0] = z;
+    F[1][1] = w;
+}
+
+void power(int F[2][2], int n)
+{
+    if (n == 0 || n == 1) {
+        return;
+    }
+    int M[2][2] = {{1,1},{1,0}};
+    
+    power(F, n / 2);
+    multiply(F, F);
+    
+    if (n%2 != 0) {
+        multiply(F, M);
+    }
+}
+
+int fib(int n)
+{
+    int F[2][2] = {{1,1},{1,0}};
+    if (n == 0)
+        return 0;
+    power(F, n-1);
+    
+    return F[0][0];
+}
+
+
+
 long long fib1(int n) {
     long long fib1 = 1;
     long long fib2 = 1;
@@ -449,6 +571,7 @@ long fib_iterative(int n){
         return 1;
     }
     
+    // TODO
     int h = n/2, mask = 1;
     
     while (mask <= h) {
@@ -503,7 +626,7 @@ bool match_regex(string input, string pattern) {
             regexStr += "\\" + to_string( counts[c - 'a'] );
         }
     }
-    
+    // (.+)(.+)(.+)/1/2/3/1/2
     return regex_match(input.begin(), input.end(), regex(regexStr));
 }
 
@@ -516,11 +639,17 @@ int minAdjustmentCost(vector<int> a, int target) {
     int dp[2][maxTarget + 1];
     memset(dp, 0, sizeof(dp));
     
+    // 0 -> a.size
     for (int i = 0; i < a.size(); i++) {
         int next = cur^1;
+        // iterate all possibilities: 1 -> 100
         for (int j = 1; j <=maxTarget; j++) {
             dp[next][j] = INT_MAX;
+            // left <- j -> right
             for (int k = max(j-target, 1); k <= min(j+target, maxTarget); k++) {
+                // choose the minimum
+                // abs(a[i] - j) => if we try 'j', what would be the cost?
+                // given we pick j, we would have range k cost => from that, pick the min
                 dp[next][j] = min( dp[next][j], dp[cur][k] + abs(a[i] - j) );
             }
         }
@@ -551,13 +680,12 @@ void findCubs(int n) {
                     
                     k3 = k*k*k;
                     double number = i3 + j3 - k3;
-                    double cube_root = pow((double)(number), (double)(1/3));
+                    double cube_root = floor(pow((double)(number), (double)(1/3)));
                     
-                    if (pow(cube_root, 3) == number && cube_root - (int)cube_root == 0 ) {
+                    if ( (pow( cube_root, 3 ) == number) && (i3 + j3 == n) )
                         printf("%d = %d^3 + %d^3 = %d^3 + %d^3\n", i3+j3 , i,j,k,(int)cube_root );
-                    }
-                    
                 }
+                
             }
         }
     }
@@ -709,4 +837,68 @@ string getPermutation(int n, int k) {
     return targetNum;
 }
 
-//http://www.geeksforgeeks.org/minimum-number-platforms-required-railwaybus-station/
+// find the minimum number of platforms for trains
+int numberPlatforms(int arr[], int dep[], int n) {
+    sort(arr, arr+n);
+    sort(dep, arr+n);
+    
+    int plat = 1, result = 1;
+    int i = 1, j = 0;
+    while (i < n && j < n) {
+        if (arr[i] < dep[j]) {
+            plat++;
+            i++;
+            result = max(result, plat);
+        } else {
+            plat--;
+            j++;
+        }
+    }
+    return result;
+}
+
+// longest increasing sequence
+int lis(int arr[], int N)
+{
+    int i;
+    set<int> s;
+    set<int>::iterator k;
+    for (i=0; i<N; i++)
+    {
+        // http://www.cplusplus.com/reference/set/set/insert/
+        if (s.insert(arr[i]).second)
+        {
+            k = s.find(arr[i]);
+            
+            k++;  // Find the next greater element in set
+            
+            if (k!=s.end()) s.erase(k);
+        }
+    }
+    
+    for (k = s.begin(); k != s.end(); k++) {
+        cout << *k << endl;
+    }
+    cout << endl;
+    
+    return s.size();
+}
+
+// largest subarray with equal number of 0 and 1
+// 0s and 1s
+// zero and one
+// zeros and ones
+// zeroes and ones
+//O(n)
+//
+//1. Make all zeros -1
+//2. change array such that a[i] = a[i] + a[i-1] (cumulative sum)
+//3.Now look for two location i,j such that a[i]=a[j] and choose
+//such that j-i is maximum possible. Same numbers at two location means cumulative sum of numbers between them is zero. For largest such sub array this range should be maximum . This step can be done by hashing with key as number and storing first and last occurrence of that number
+//
+//But there can be one more possibility, i.e cumulative sum itself zero up to some point (a[k] =0). Choose maximum k , i.e farthest location where 0 is stored
+//
+//Return MAX( (j-i) , k)
+
+// If you have n machines with a 10 GB string of characters on   each, how do you find the most common character
+//Just ask for a distribution of each character from each machine, send the tables to a master machine which added them up and found the character with the highest frequency. Then he asked questions like “If we make the network faster, does it make sense to send over all the data to one machine?” I respond “no”, and explain that it would actually degrade performance. Finally, toward the end, he asked

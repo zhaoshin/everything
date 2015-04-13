@@ -32,6 +32,8 @@ using namespace std;
  when cache reached capacity, it should invalidate the least recently used item.
 */
 
+/* least recently used is at the front, most recently used is at the end */
+
 class LRUCache{
 
 private:
@@ -57,6 +59,7 @@ public:
         tail = NULL;
     }
     
+    // end
     void insertNode(Node *node) {
         if (!head) {
             head = node;
@@ -110,6 +113,7 @@ public:
         if (mp.find(key) == mp.end()) {
             return -1;
         } else {
+            // used get moved to the end
             Node *tmp = mp[key];
             moveNode(tmp);
             return tmp->value;
@@ -118,11 +122,13 @@ public:
     
     void set(int key, int value) {
         if (mp.find(key) != mp.end()) {
+            // just used this key, so move to the end
             moveNode(mp[key]);
             mp[key]->value = value;
         } else {
             if (mp.size() == cp) {
                 mp.erase(head->key);
+                // remove front (Least recently used)
                 removeNode(head);
             }
             Node *node = new Node(key, value);

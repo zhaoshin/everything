@@ -22,27 +22,16 @@ using namespace std;
 // wild car matching
 // ? match any single
 // * match empty to any sequence
+//TODO
 bool isMatch(char *s, char *p) {
     char *star = NULL;
     char *ss = s;
     while (*s) {
-        if (*p == '?' || *p == *s) {
-            s++;
-            p++;
-            continue;
-        }
+        if (*p == '?' || *p == *s) { s++; p++; continue; }
         
-        if (*p == '*') {
-            star = p++;
-            ss = s;
-            continue;
-        }
+        if (*p == '*')             { star = p++; ss = s; continue; }
         
-        if (star) {
-            p = star + 1;
-            s = ++ss;
-            continue;
-        }
+        if (star)                  { p = star + 1; s = ++ss; continue; }
         
         return false;
     }
@@ -55,6 +44,8 @@ bool isMatch(char *s, char *p) {
 }
 
 // first missing positive
+// cheat
+//
 int findFirstMissingPositive(int a[], int n) {
     for (int i = 0; i < n; i++) {
         while (a[i] != i+1) {
@@ -75,6 +66,21 @@ int findFirstMissingPositive(int a[], int n) {
     }
     
     return n+1;
+}
+
+// find the number that occurs twice
+// find duplicate element
+// duplicate number
+void printRepeating(int arr[], int size)
+{
+    int i;
+    for (i = 0; i < size; i++)
+    {
+        if (arr[abs(arr[i])] >= 0)
+            arr[abs(arr[i])] = -arr[abs(arr[i])];
+        else
+            printf(" %d ", abs(arr[i]));
+    }
 }
 
 // volume
@@ -403,7 +409,10 @@ vector<vector<int>> fourSum(vector<int> num, int target) {
     map<int, vector<pair<int, int>>>::iterator it;
     for (it = dict.begin(); it != dict.end(); it++) {
         vector<pair<int, int>> sumPair = it->second;
+        
         if (dict.find(target-it->first) != dict.end()) {
+            
+            // do not consider dup
             if (target - it->first == it->first && sumPair.size() == 1) {
                 continue;
             }
@@ -435,6 +444,7 @@ vector<vector<int>> fourSum(vector<int> num, int target) {
     return res;
 }
 
+// max area formed by array
 int maxArea(vector<int> height) {
     int maxArea = 0;
     int l = 0;
@@ -456,8 +466,7 @@ int maxArea(vector<int> height) {
 
 // string to int
 int atoi(const char *str) {
-    // Start typing your C/C++ solution below
-    // DO NOT write int main() function
+
     if (!str){return 0;}
     int i=0;
     bool pos=true;
@@ -467,6 +476,7 @@ int atoi(const char *str) {
     if (str[i]=='-'){ pos = false;i++;}
     if (!isdigit(str[i])){return 0;}
     while (isdigit(str[i])){
+        // TODO
         if (pos && res>INT_MAX/10){return INT_MAX;}
         if (pos && res==INT_MAX/10 && int(str[i]-'0')>=7){return INT_MAX;}
         if (!pos && -res<INT_MIN/10){return INT_MIN;}
@@ -521,6 +531,7 @@ int lengthOfLongestSubstring(string s) {
 
 // regular expression matching
 // dynamic programming
+// TODO
 bool isMatch_regularExpression(char *s, char *p) {
     int m = strlen(s);
     int n = strlen(p);

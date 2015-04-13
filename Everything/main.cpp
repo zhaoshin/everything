@@ -19,6 +19,9 @@
 
 using namespace std;
 
+// polymorphism
+// inheritance
+// virtual
 
 void print_vector(vector<string>v) {
     for (auto i : v) {
@@ -173,7 +176,6 @@ void subsets(string str, int start, string curr) {
     }
 }
 
-// TODO
 // print all subsets
 // iterative
 vector<vector<char>> subsets(vector<char> set) {
@@ -835,7 +837,36 @@ int lengthOFLongestSubstringWithTwoDistinct(string s) {
 // random number generator
 // create random 9 from random 6
 //int rand9(){
-//    return ((())rand6() - 1) * 6) + (rand6()-1))/4 + 1
+//    return (rand6() - 1) * 6) + (rand6()-1))/4 + 1
+//} 30 +
+
+//int my_rand() // returns 1 to 7 with equal probability
+//{
+//    int i;
+//    i = 5*foo() + foo() - 5;
+//    if (i < 22)
+//        return i%7 + 1;
+//    return my_rand();
+//}
+
+//int rand9()
+//{
+//    int vals[5][5] = {
+//        { 1, 2, 3, 4, 5 },
+//        { 6, 7, 8, 9, 1 },
+//        { 2, 3, 4, 5, 6 },
+//        { 7, 8, 9, 0, 0 },
+//        { 0, 0, 0, 0, 0 }
+//    };
+//    
+//    int result = 0;
+//    while (result == 0)
+//    {
+//        int i = rand5();
+//        int j = rand5();
+//        result= vals[i-1][j-1];
+//    }
+//    return result;
 //}
 
 // power function
@@ -1074,7 +1105,7 @@ int maxProfit(vector<int> prices) {
     for (int i = 0; i < prices.size(); i++) {
         minValue = min(prices[i], minValue);
         diff = prices[i] - minValue;
-        profit = max(prices[i], diff);
+        profit = max(profit, diff);
     }
     return profit;
 }
@@ -1183,7 +1214,7 @@ int minHP(vector<vector<int>> dungeon){
     
     for (int i = m-2; i >= 0; i--) {
         for (int j = n-2; j >= 0; j--) {
-            dp[i][j] = max(min(dp[i][j+1], dp[i+1][j]), 0);
+            dp[i][j] = max(min(dp[i][j+1], dp[i+1][j]) - dungeon[i][j], 0);
         }
     }
     
@@ -1463,10 +1494,11 @@ int swapBits(int x, int p1, int p2, int n) {
 // add two numbers using bits
 int Add(int x, int y) {
     while (y!=0) {
+        // carry ... & ...
         int carry = x&y;
-        
+        // value is xor
         x = x^y;
-        
+        // move carry left by one
         y = carry << 1;
     }
     
@@ -1548,7 +1580,6 @@ int eval(vector<string> given) {
 }
 
 // recursion tree
-// dynamic programming
 // word break
 void getSolution(string s, int start, string curr, set<string> dict, vector<string> &res) {
     if (start == s.size()) {
@@ -1572,13 +1603,16 @@ vector<string> wordBreak(string s, set<string> dict) {
     return res;
 }
 
+// dynamic programming
 bool wordBreakExist(string s, set<string> dict) {
     string s2 = '#' + s;
     int len = s2.size();
     vector<bool> possible(len, false);
     
     possible[0] = true;
+    // i : 1->len
     for (int i = 1; i < len; i++) {
+        // k : 0->i
         for (int k = 0; k < i; k++) {
             possible[i] = possible[k] && (dict.find(s2.substr(k+1, i-k))!= dict.end());
             if (possible[i]) break;
@@ -1602,8 +1636,9 @@ int singleNumber(int a[], int n) {
         t1 = t1 ^ a[i];
         t3 = t1&t2;
         
-        t1 = t1&t3;
-        t2 = t2&t3;
+        // turn them three time bits into 0
+        t1 = t1&~t3;
+        t2 = t2&~t3;
     }
     
     return t1;
@@ -1708,7 +1743,9 @@ int minCut(string s) {
         }
     }
     
+    // i : len -> 0
     for (int i = len - 1; i >= 0; i--) {
+        // j : i -> len
         for (int j = i; j < len; j ++) {
             if (s[i] == s[j] && (j - i < 2 || p[i+1][j-1])) {
                 p[i][j] = true;
@@ -1856,7 +1893,9 @@ int numDistinct(string s, string t) {
         match[i] = 0;
     }
     
+    // i : 1->size
     for (int i = 1; i <= s.size(); i++) {
+        // j : size -> 1
         for (int j = t.size(); j >= 1; j--) {
             if (s[i-1] == t[j-1]) {
                 match[j] += match[j-1];
@@ -1867,6 +1906,8 @@ int numDistinct(string s, string t) {
     return match[t.size()];
 }
 
+
+//TODO
 // word ladder
 class wordLadderAllSolution {
 public:
@@ -2023,6 +2064,10 @@ int ladderLength(string start, string end, set<string> dict) {
 
 // triangle
 // find minimum path in triangle
+// minimum path in triangle
+// maximum path in triangle
+// min path in triangle
+// max path in triangle
 int minPathTriangle(vector<vector<int>> tri) {
     int total[tri.size()];
     int l = tri.size() - 1;
@@ -2158,9 +2203,9 @@ void getRes(string s, string curr, vector<string> &res, int k) {
     for (int i = 1; i <= 3; i++) {
         if (s.size() >= i && valid(s.substr(0, i))) {
             if (k == 1) {
-                getRes(s, curr + s.substr(0, i), res, k - 1);
+                getRes(s.substr(i), curr + s.substr(0, i), res, k - 1);
             } else {
-                getRes(s, curr + s.substr(0, i) + ".", res, k - 1);
+                getRes(s.substr(i), curr + s.substr(0, i) + ".", res, k - 1);
             }
         }
         
@@ -2386,6 +2431,8 @@ int maxArea(int a[], int n) {
             int index = s.top();
             s.pop();
             
+            // empty -> i
+            // not empty -> math
             int curr_area = a[index] * (s.empty() ? i : i - s.top() - 1);
             
             max_area = max(max_area, curr_area);
@@ -2642,6 +2689,11 @@ string addStrings(string a, string b) {
     return res;
 }
 
+// minimum path sum
+// maximum path sum
+// min path sum
+// max path sum
+// dynamic programming
 int minPathSum(vector<vector<int>> grid) {
     int row = grid.size();
     int col = grid[0].size();
@@ -2651,7 +2703,7 @@ int minPathSum(vector<vector<int>> grid) {
     
     for (int i = 0; i<row; i++) {
         res[0] += grid[i][0];
-        for (int j = 0; j < col; j++) {
+        for (int j = 1; j < col; j++) {
             res[j] = min(res[j-1], res[j]) + grid[i][j];
         }
     }
@@ -2723,7 +2775,7 @@ vector<Interval> insertInterval(vector<Interval> intervals, Interval newInterval
         if (res.back().end >= it->start) {
             res.back().end = max(res.back().end, it->end);
         } else {
-        
+            res.push_back(*it);
         }
     }
     return res;
@@ -2847,7 +2899,7 @@ vector<int> spiralOrder(vector<vector<int> > &matrix) {
 // queens
 bool isValid(int a[], int r) {
     for (int i = 0; i < r; i++) {
-        if (a[i] == a[r] || abs(a[i] - a[r]) == (r - i)) {
+        if (a[i] == a[r] || abs(a[i] - a[r]) == abs(r - i)) {
             return false;
         }
     }
@@ -2916,6 +2968,7 @@ void printAnagram(vector<string> arr) {
 }
 
 // rotate an image
+// rotate matrix
 // flip diagonally
 // flip vertically
 void rotate(vector<vector<int>> matrix) {
@@ -2941,7 +2994,6 @@ void rotate(vector<vector<int>> matrix) {
 // while dividend(f) greater than divisor
 // // while dividend(f) > divisor(f) , dividend(f) -= divisor(f), res += c
 // reduce divisor(f), c by 2
-
 int divide(int dividend, int divisor) {
     // Start typing your C/C++ solution below
     // DO NOT write int main() function
@@ -2955,7 +3007,7 @@ int divide(int dividend, int divisor) {
     unsigned long c = 1;
     while (tmp>tmp2){
         tmp2 <<= 1;
-        c = c<<1;
+        c <<= 1;
     }
     
     int res = 0;

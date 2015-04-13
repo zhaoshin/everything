@@ -8,6 +8,9 @@
 
 #include <stdio.h>
 
+
+// number of occurence
+// frequence of occurence
 /* if x is present in arr[] then returns the index of FIRST occurrence
  of x in arr[0..n-1], otherwise returns -1 */
 int first(int arr[], int low, int high, int x, int n)
@@ -216,4 +219,57 @@ void my_merge_sort(int array[], int low, int high, int &res) {
         my_merge_sort(array, mid+1, high, res);
         merge(array, low, mid, high, res);
     }
+}
+
+// Heap sort
+// heapsort
+
+// maintain heap relationship for the triangle from low to high
+void shiftRight(int *arr, int low, int high) {
+    int root = low;
+    while (root * 2 + 1 <= high) {
+        int leftChild = root * 2 + 1;
+        int rightChild = leftChild + 1;
+        int swapIndex = root;
+        
+        if (arr[swapIndex] < arr[leftChild]) {
+            swapIndex = leftChild;
+        }
+        
+        if (rightChild <= high && arr[swapIndex] < arr[rightChild]) {
+            swapIndex = rightChild;
+        }
+        
+        if (swapIndex != root) {
+            swap(arr[root], arr[swapIndex]);
+            
+            root = swapIndex;
+        } else {
+            break;
+        }
+    }
+}
+
+// create heap structure
+// call shiftRigth from last triangle to the first triangle
+void heapify(int *arr, int low, int high) {
+    int mid = low + (high - low)/2;
+    while (mid >= 0) {
+        shiftRight(arr, mid, high);
+        
+        mid --;
+    }
+}
+
+// heapsort
+void heapSort(int *arr, int size) {
+    heapify(arr, 0, size-1);
+    
+    int high = size - 1;
+    while (high > 0) {
+        swap(arr[high], arr[0]);
+        high -- ;
+        shiftRight(arr, 0, high);
+    }
+    
 }
