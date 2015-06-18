@@ -177,6 +177,9 @@ void subsets(string str, int start, string curr) {
 }
 
 // print all subsets
+// anagrams
+// permutations
+// combination
 // iterative
 vector<vector<char>> subsets(vector<char> set) {
     vector<vector<char>> subsets;
@@ -202,7 +205,9 @@ vector<vector<char>> subsets(vector<char> set) {
     return subsets;
 }
 
+// all anagram
 // get all permutation of a string
+// all combination
 void permutation(string arr, int start, int size, set<string> &set)
 {
     if(start == size-1) {
@@ -413,6 +418,7 @@ void makeSentence(string str, string curr, vector<string> &res, set<string> dic)
     }
 }
 
+// find missing in consecutive
 // find the missing number in an array of consecutive integers
 // binary search
 int missingNumber(int array[], int size) {
@@ -514,6 +520,7 @@ int getMedian(int e, int &m, Heap &l, Heap &r) {
 
 // check if a path exist in a matrix
 // skiing
+// maze
 bool pathExists(int array[5][5], int x, int y, int m, int n) {
     if (x == m || y == n || array[x][y] == 1) {
         return false;
@@ -541,6 +548,7 @@ int uniquePath(int x, int y, int m, int n) {
 }
 
 // iterative
+// maze
 int uniquePath_iterative(int m, int n) {
     vector<int> dp(m, 1);
     for (int i = 1; i < n; i++) {
@@ -552,7 +560,81 @@ int uniquePath_iterative(int m, int n) {
     return dp[m-1];
 }
 
+// rat in a maze
+void printSolution(int sol[N][N])
+{
+    for (int i = 0; i < N; i++)
+    {
+        for (int j = 0; j < N; j++)
+            printf(" %d ", sol[i][j]);
+        printf("\n");
+    }
+}
+
+/* A utility function to check if x,y is valid index for N*N maze */
+bool isSafe(int maze[N][N], int x, int y)
+{
+    // if (x,y outside maze) return false
+    if(x >= 0 && x < N && y >= 0 && y < N && maze[x][y] == 1)
+        return true;
+    
+    return false;
+}
+
+bool solveMaze(int maze[N][N])
+{
+    int sol[N][N] = { {0, 0, 0, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0}
+    };
+    
+    if(solveMazeUtil(maze, 0, 0, sol) == false)
+    {
+        printf("Solution doesn't exist");
+        return false;
+    }
+    
+    printSolution(sol);
+    return true;
+}
+
+/* A recursive utility function to solve Maze problem */
+bool solveMazeUtil(int maze[N][N], int x, int y, int sol[N][N])
+{
+    // if (x,y is goal) return true
+    if(x == N-1 && y == N-1)
+    {
+        sol[x][y] = 1;
+        return true;
+    }
+    
+    // Check if maze[x][y] is valid
+    if(isSafe(maze, x, y) == true)
+    {
+        // mark x,y as part of solution path
+        sol[x][y] = 1;
+        
+        /* Move forward in x direction */
+        if (solveMazeUtil(maze, x+1, y, sol) == true)
+            return true;
+        
+        /* If moving in x direction doesn't give solution then
+         Move down in y direction  */
+        if (solveMazeUtil(maze, x, y+1, sol) == true)
+            return true;
+        
+        /* If none of the above movements work then BACKTRACK:
+         unmark x,y as part of solution path */
+        sol[x][y] = 0;
+        return false;
+    }
+    
+    return false;
+}
+
 // with obstacles
+// maze with obstacle
 int uniquePathsWithObstacles(vector<vector<int>> grid) {
     
     int m = grid.size();
@@ -573,7 +655,7 @@ int uniquePathsWithObstacles(vector<vector<int>> grid) {
         dp[0] = grid[i][0] == 1 ? 0:dp[0];
         
         for (int j = 1; j < m; j++) {
-            dp[j] = grid[i][j] ? 0 : dp[j-1] + dp[j];
+            dp[j] = grid[i][j] == 1 ? 0 : dp[j-1] + dp[j];
         }
     }
     return dp[n-1];
@@ -650,7 +732,7 @@ int maxSubArray(vector<int> array) {
     return globalMax;
 }
 
-// check if two numbers are coprime to each other
+// check if two numbers are coprime to each other todo
 // coprime is if the two number can only be commonly divided by 1
 bool isCoPrime(int a, int b) {
     while (b > 0) {
@@ -679,6 +761,7 @@ void rePhrase(string str, int start, vector<string> &res, map<char, char>mp) {
     }
 }
 
+// todo
 vector<string> getPasswords(string password, map<char, char>mp) {
     vector<string> passwords;
     
@@ -696,6 +779,7 @@ vector<string> getPasswords(string password, map<char, char>mp) {
     return passwords;
 }
 
+// todo
 // find the longest common substring between two texts
 // O(n) solution exist in geeksforgeeks:
 // http://www.geeksforgeeks.org/suffix-tree-application-5-longest-common-substring-2/
@@ -732,7 +816,7 @@ double rollingSize(int n) {
     double probability = 1;
     
     for (int i = 0; i < n; i ++) {
-        probability *= 1 - (1/6);
+        probability *= 1 - (1/6); // isnt this 5/6? yes, we do this in reverse
     }
     
     return 1 - probability;
@@ -1008,7 +1092,6 @@ int find_max(int freq[], bool excep[]) {
     return max_i;
 }
 
-
 // reorder string d distance apart
 void create(char* str, int d, char ans[]) {
     int n = strlen(str);
@@ -1057,6 +1140,7 @@ void reverseString(char *str, int l, int r) {
 }
 
 // rotate an array
+// rotate array
 void rotate(char* str, int k) {
     int n = (int)strlen(str);
     reverseString(str, 0, n-1);
@@ -1101,8 +1185,8 @@ int stock_k_transaction(vector<int> prices, int k) {
 int maxProfit(vector<int> prices) {
     int diff = 0;
     int profit = 0;
-    int minValue = 0;
-    for (int i = 0; i < prices.size(); i++) {
+    int minValue = prices[0];
+    for (int i = 1; i < prices.size(); i++) {
         minValue = min(prices[i], minValue);
         diff = prices[i] - minValue;
         profit = max(profit, diff);
@@ -1193,8 +1277,10 @@ void printLargest(vector<string> arr)
 }
 
 // dungeon game
+// dragon knight
+// dragonknight
 // dynamic programming
-// min life to survive
+// min life to survive //todo
 int minHP(vector<vector<int>> dungeon){
     int m = dungeon.size();
     int n = dungeon[0].size();
@@ -1320,6 +1406,7 @@ int findCandidate(int a[], int size) {
 }
 
 // recurring fraction
+// fraction to decimal
 // decimal
 string fractionToDecimal(int num, int denom) {
     if (num == 0) {
@@ -1520,8 +1607,8 @@ void changeToZero(int a[2]) {
     a[a[1]] = a[!a[1]];
 }
 
-// find the minimum in rotated binary array
-// find the min in rotated binary array
+// find the minimum in rotated array
+// find the min in rotated array
 int findMin(int arr[], int low, int high) {
     if (low == high) {
         return arr[low];
@@ -1693,6 +1780,7 @@ int completeCircuit(vector<int> gas, vector<int> cost) {
     return startNode;
 }
 
+// print all palindrome
 // palindrome
 // partition string such that every substring is a palindrome
 bool valid(string s, int start, int end) {
@@ -1726,8 +1814,34 @@ vector<vector<string>> partition(string s) {
     return res;
 }
 
-// minimum cut palindrome
+// longest common substring
 // dynamic programming
+int LCSubStr(char *X, char *Y, int m, int n)
+{
+    int LCSuff[m+1][n+1];
+    int result = 0;  // To store length of the longest common substring
+    
+    /* Following steps build LCSuff[m+1][n+1] in bottom up fashion. */
+    for (int i=0; i<=m; i++)
+    {
+        for (int j=0; j<=n; j++)
+        {
+            if (i == 0 || j == 0)
+                LCSuff[i][j] = 0;
+            
+            else if (X[i-1] == Y[j-1])
+            {
+                LCSuff[i][j] = LCSuff[i-1][j-1] + 1;
+                result = max(result, LCSuff[i][j]);
+            }
+            else LCSuff[i][j] = 0;
+        }
+    }
+    return result;
+}
+
+// minimum cut palindrome
+// dynamic programming //todo
 int minCut(string s) {
     int len = s.size();
     int d[len + 1];
@@ -1772,6 +1886,8 @@ void fill(vector<vector<char>> board, int i, int j, char target, char c) {
     fill(board, i, j-1, target, c);
 }
 
+// bfs
+// breadth first search
 void fill_iterative(vector<vector<char>> board, int i, int j, char target, char c) {
     int m = board.size();
     int n = board[0].size();
@@ -1909,6 +2025,7 @@ int numDistinct(string s, string t) {
 
 //TODO
 // word ladder
+// change start word to end word 1 letter at a time
 class wordLadderAllSolution {
 public:
     map<string,vector<string>> mp; // result map
@@ -1936,9 +2053,9 @@ public:
             res.push_back(path);
             reverse(path.begin(),path.end());
         }else{
-            cout << last << endl;
+//            cout << last << endl;
             for (int i=0;i<mp[last].size();i++){
-                print_vector(mp[last]);
+//                print_vector(mp[last]);
                 path.push_back(mp[last][i]);
                 output(start,mp[last][i]);
                 path.pop_back();
@@ -2033,10 +2150,19 @@ int ladderLength(string start, string end, set<string> dict) {
         
         if (q.size()<rq.size()){
             while (!q.empty() && q.front().lev==level){
+                
+                // loop through dictionary
                 for (auto it=dict.begin();it!=dict.end();it++){
+                    
+                    // new word has not been visited yet
+                    // new word is valid for the previous level
                     if (!mark[*it] && valid(q.front().str,*it)){
+                        // mark it as visited
                         mark[*it]=true;
+                        // if reverse has this word, then:
+                        // result will be the summation of the two levels
                         if (rmark[*it]){return q.front().lev+rq.back().lev;}
+                        
                         q.push(node(*it,level+1));
                     }
                 }
@@ -2117,7 +2243,7 @@ vector<vector<int>> generate(int numRows) {
 
 // pascal
 // give out the kth row;
-// r(k) = r(k-1) * (n+1-k)/k,
+// r(k) = r(k-1) * (n+1-k)/k, //todo
 vector<int> getRow(int rowIndex) {
     vector<int> res;
     res.push_back(1);
@@ -2143,6 +2269,8 @@ vector<int> getRow(int rowIndex) {
 
 // interleaving string
 // check if s1 s2 can form s3
+//dynamic programming
+// sort of like merge
 bool isInterleave(string a, string b, string c) {
     int n = a.size();
     int m = b.size();
@@ -2214,6 +2342,7 @@ void getRes(string s, string curr, vector<string> &res, int k) {
 }
 
 // decode ways
+// number of ways
 // abcdefg
 // 12345
 int numDecodings(string s) {
@@ -2226,17 +2355,82 @@ int numDecodings(string s) {
     nums[1] = s[0] != '0' ? 1 : 0;
     
     for (int i = 2; i <= s.length(); i++) {
-        if (s[i-1] != '0') {
-            nums[i] = nums[i-1];
+        
+        nums[i] = nums[i - 1];
+        if (s[i-1] != '0' && nums[i-1] == 0) {
+            nums[i] = 1;
         }
         
-        int twoDigits = (s[i - 2] - '0') * 10 + s[i-1];
+        int twoDigits = (s[i - 2] - '0') * 10 + (s[i-1] - '0');
         if (twoDigits >= 10 && twoDigits <= 26) {
             nums[i] += nums[i - 2];
         }
     }
     
     return nums[s.length()];
+}
+
+#include <time.h>
+
+/* Size of array 64 K */
+#define SIZE (1 << 16)
+
+/* Meta program that generates set bit count
+ array of first 256 integers */
+
+/* GROUP_A - When combined with META_LOOK_UP
+ generates count for 4x4 elements */
+
+#define GROUP_A(x) x, x + 1, x + 1, x + 2
+
+/* GROUP_B - When combined with META_LOOK_UP
+ generates count for 4x4x4 elements */
+
+#define GROUP_B(x) GROUP_A(x), GROUP_A(x+1), GROUP_A(x+1), GROUP_A(x+2)
+
+/* GROUP_C - When combined with META_LOOK_UP
+ generates count for 4x4x4x4 elements */
+
+#define GROUP_C(x) GROUP_B(x), GROUP_B(x+1), GROUP_B(x+1), GROUP_B(x+2)
+
+/* Provide appropriate letter to generate the table */
+
+#define META_LOOK_UP() \
+GROUP_C(0),  \
+GROUP_C(1),  \
+GROUP_C(1),  \
+GROUP_C(2)   \
+
+int countSetBits(int array[], size_t array_size)
+{
+    int count = 0;
+    
+    /* META_LOOK_UP(C) - generates a table of 256 integers whose
+     sequence will be number of bits in i-th position
+     where 0 <= i < 256
+     */
+    
+    /* A static table will be much faster to access */
+    static unsigned char const look_up[] = { META_LOOK_UP() };
+    
+    /* No shifting funda (for better readability) */
+    unsigned char *pData = NULL;
+    
+    for(size_t index = 0; index < array_size; index++)
+    {
+        /* It is fine, bypass the type system */
+        pData = (unsigned char *)&array[index];
+        
+        /* Count set bits in individual bytes */
+        cout << pData[0] <<"\t"<<pData[1] << "\t"<<pData[2] << "\t"<<pData[3] <<endl;
+        
+        count += look_up[pData[0]];
+        count += look_up[pData[1]];
+        count += look_up[pData[2]];
+        count += look_up[pData[3]];
+    }
+    
+    return count;
 }
 
 // subsets.
@@ -2262,6 +2456,9 @@ void generateSub(vector<int> &s, int step, vector<vector<int>> &result,vector<in
 
 // original
 // contain duplicates
+// all possible combinations
+// combination sum
+// combination sums
 void combination(int k, int n, int start, vector<vector<int>> &result, vector<int> curr) {
     if (start == k) {
         result.push_back(curr);
@@ -2275,6 +2472,22 @@ void combination(int k, int n, int start, vector<vector<int>> &result, vector<in
     }
 }
 
+public void dfs(List<List<Integer>> result, int start, int sum, List<Integer> list, int k){
+    if(sum==0 && list.size()==k){
+        List<Integer> temp = new ArrayList<Integer>();
+        temp.addAll(list);
+        result.add(temp);
+    }
+    
+    for(int i=start; i<=9; i++){
+        if(sum-i<0) break;
+        if(list.size()>k) break;
+        
+        list.add(i);
+        dfs(result, i+1, sum-i, list, k);
+        list.remove(list.size()-1);
+    }
+}
 
 vector<vector<int> > subsetsWithDup(vector<int> &S) {
     // Start typing your C/C++ solution below
@@ -2389,10 +2602,48 @@ bool isScramble(string a, string b) {
     return false;
 }
 
+
+    public boolean isScramble(String s1, String s2) {
+        //Check lengths.
+        if (s1.length() != s2.length())
+            return false;
+        if (s1.equals(s2))
+            return true;
+        
+        int L = s1.length();
+        boolean[][][] scramble = new boolean[L][L][L];
+        for (int i = 0; i < L; i++) {
+            for (int j = 0; j < L; j++)
+                if (s1.charAt(i) == s2.charAt(j))
+                    scramble[0][i][j] = true;
+        }
+        
+        for (int k = 2; k <= L; k++) {
+            for (int i = L - k; i >= 0; i--) {
+                for (int j = L - k; j >= 0; j--) {
+                    boolean canScramble = false;
+                    for (int m = 1; m < k; m++) {
+                        canScramble = (scramble[m - 1][i][j] && scramble[k - m - 1][i + m][j + m]) || (scramble[m - 1][i][j + k -m] && scramble[k - m - 1][i + m][j]);
+                        if (canScramble)
+                            break;
+                    }
+                    scramble[k - 1][i][j] = canScramble;
+                }
+            }
+        }
+        
+        return scramble[L - 1][0][0];
+    }
+
+
 // maximal rectangle
 // max rectangle
 // maximal retangle with ones
 // max retangle with ones
+// maximal square with ones
+// max square with ones
+// largest rectangle with 1s
+// largest square with 1s
 void printMaxSubSquare(vector<vector<bool>> m) {
     int r = m.size();
     int c = m[0].size();
@@ -2418,6 +2669,9 @@ void printMaxSubSquare(vector<vector<bool>> m) {
     
 }
 
+// largest area in array
+// largest area formed by array
+// largest rectangle in array
 // largest rectangle in histogram
 int maxArea(int a[], int n) {
     stack<int> s;
@@ -2613,6 +2867,8 @@ bool searchMatrix(vector<vector<int>> matrix, int target) {
 }
 
 // simpify path
+// folder path
+// path folder
 string simplifyPath(string path) {
     int i = 0;
     while (i < path.size() - 1) {
@@ -3021,6 +3277,83 @@ int divide(int dividend, int divisor) {
     }
     
     return sign*res;
+}
+
+// bit wise range
+// range bit wise
+int rangeBitwiseAnd(int m, int n) {
+    while (n > m) {
+        n = (n & n - 1);
+    }
+    return m & n;
+}
+
+int sum(vector <int> arr) {
+    int sum = 0;
+    for (auto i : arr) {
+        sum += i*i;
+    }
+    return sum;
+}
+
+vector<int> getDigits(int n) {
+    vector<int> result;
+    while (n > 0) {
+        int m = n%10;
+        result.push_back(m);
+        n /= 10;
+    }
+    return result;
+}
+
+// happy numbers
+bool isHappy(int n) {
+    set<int> buff;
+    
+    while (buff.find(n) == buff.end()) {
+        buff.insert(n);
+        
+        n = sum(getDigits(n));
+        if (n == 1 ) {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+//isomorphic string
+bool check(string s, string t) {
+    if (s.length() != t.length()) {
+        return false;
+    }
+    
+    map <char, char> m1;
+    map <char, char> m2;
+    
+    for (int i = 0; i < s.length(); i++) {
+        char c1 = s[0];
+        char c2 = t[0];
+        
+        if (m1.find(c1) != m1.end()) {
+            if (m1[c1] != c2) {
+                return false;
+            }
+        }
+        
+        if (m2.find(c2) != m2.end()) {
+            if (m2[c2] != c1) {
+                return false;
+            }
+        }
+        
+
+        
+        m1.insert(c1, c2);
+        m2.insert(c2, c1);
+        
+    }
+    return true;
 }
 
 int main() {

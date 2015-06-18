@@ -17,6 +17,9 @@
 
 using namespace std;
 
+// subset sum
+// sub set sum
+// all possible subset sum
 void subSetSum(int target, int sum, int candidates[], int start, int sz, int index[], int n) {
     if (sum>target) {
         return;
@@ -53,6 +56,8 @@ void removeDuplicate(char *str) {
     str[tail] = '\0';
 }
 
+// todo
+// remove duplicate without extra space
 void removeDup_withoutExtra(char *str){
     int len = strlen(str);
     if (len < 2) {
@@ -77,6 +82,7 @@ void removeDup_withoutExtra(char *str){
 }
 
 // prime sieve
+// sieve of prime
 void markPrime(vector<bool> arr, int a) {
     int i = 2;
     int num;
@@ -101,6 +107,10 @@ void primeSeive(int n) {
 }
 
 // array mutiplication
+// multiply everything but the element
+// multiply everything but the current element
+// multiply everything but the index element
+// multiply everything but the indexed element
 void array_multiplication(int a[], int output[], int n) {
     int left = 1;
     int right = 1;
@@ -127,7 +137,42 @@ void bubbleSort(int *array, int length) {
     }
 }
 
+// rectangle area
+// area of both rectangle
+// area under both rectangle
+int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) {
+    if(C<E||G<A )
+        return (G-E)*(H-F) + (C-A)*(D-B);
+    
+    if(D<F || H<B)
+        return (G-E)*(H-F) + (C-A)*(D-B);
+    
+    int right = Math.min(C,G);
+    int left = Math.max(A,E);
+    int top = Math.min(H,D);
+    int bottom = Math.max(F,B);
+    
+    return (G-E)*(H-F) + (C-A)*(D-B) - (right-left)*(top-bottom);
+}
+
+// insertion sort
+void insertion_sort (int arr[], int length){
+    int j, temp;
+    
+    for (int i = 1; i < length; i++){
+        j = i;
+        
+        while (j > 0 && arr[j] < arr[j-1]){
+            temp = arr[j];
+            arr[j] = arr[j-1];
+            arr[j-1] = temp;
+            j--;
+        }
+    }
+}
+
 // coin change
+// dynamic programming
 int coinChange(vector<int> coins, int change) {
     vector<int> res(change + 1, INT_MAX);
     vector<int> seq(change + 1);
@@ -152,7 +197,9 @@ int coinChange(vector<int> coins, int change) {
     return res[change];
 }
 
-// knapsack
+// knap sack
+// knapsack todo
+// dynamic programming
 int knapSack(int W, int wt[], int val[], int n) {
     int i, w;
     int dp[n+1][W+1];
@@ -171,6 +218,7 @@ int knapSack(int W, int wt[], int val[], int n) {
     return dp[n][W];
 }
 
+// shuffle
 void randomize ( int arr[], int n )
 {
     for (int i = n-1; i > 0; i--)
@@ -210,9 +258,18 @@ int getMax(int a, int b) {
 // TODO
 // next ith same count
 unsigned nexthi_same_count_ones(unsigned a) {
+    // 100011110
     /* works for any word length */
+    // right most bit
     unsigned c = (a & -a);
-    unsigned r = a+c;
+
+    unsigned r = a+c;    // 100100000
+    
+    // r^a = 000111110
+    // 000011111
+    // 000000111
+    
+    // 100100111
     return (((r ^ a) >> 2) / c) | r;
 }
 
@@ -298,20 +355,36 @@ void primeFactors(int n) {
 }
 
 // print all factors
-// print factors
+// print factors todo
 void printFactors(int number, string parentFactor, int parentVal) {
+    
+    //parentVal is more like maxVal, a max cap.
+    
+    // newVal is new Parent Val
     int newVal = parentVal;
     
     for ( int i = number - 1; i >= 2; i--) {
+        // division is successful
         if (number % i == 0) {
+            
+            // next parent val will be i iff i is smaller than the current.
             if (i < newVal) {
                 newVal = i;
             }
+            
+            // number/i less than maxCap
+            // i less than maxCap
+            // number/i less than i (remove duplicates: 24/6 = 4 is permitted, 24/4 = 6 is not)
             if (number/i <= parentVal && i<=parentVal && number/i <= i) {
                 cout << parentFactor << i << "*" << number/i << endl;
+                
+                // resulting new maxCap is number/i (24/6 = 4)
                 newVal = number/i;
             }
+            
+            // i is less than cap
             if (i <= parentVal) {
+                // new number is 24/6
                 printFactors(number/i, parentFactor+to_string(i)+'*', newVal);
             }
         }
@@ -425,6 +498,7 @@ int search(int arr[], int x, int n)
     return -1;
 }
 
+// post order
 // Prints postorder traversal from given inorder and preorder traversals
 void printPostOrder(int in[], int pre[], int n)
 {
@@ -470,7 +544,7 @@ bool isMatch(char *str, const char* pattern) {
 }
 
 // replace with x
-
+// replace all occurences with x
 void replace(char str[], const char *pattern) {
     if (str == NULL || pattern == NULL) return;
     char *pSlow = str, *pFast = str;
@@ -493,7 +567,7 @@ void replace(char str[], const char *pattern) {
     *pSlow = '\0';
 }
 
-// fibernacci
+// fibonacci
 void multiply(int F[2][2], int M[2][2])
 {
     int x =  F[0][0]*M[0][0] + F[0][1]*M[1][0];
@@ -532,8 +606,6 @@ int fib(int n)
     return F[0][0];
 }
 
-
-
 long long fib1(int n) {
     long long fib1 = 1;
     long long fib2 = 1;
@@ -566,6 +638,9 @@ long fib_recursive(int n) {
     }
 }
 
+// fib iterative
+// fibonacci iterative
+// fibonacci iterative
 long fib_iterative(int n){
     if (n<=2) {
         return 1;
@@ -631,8 +706,9 @@ bool match_regex(string input, string pattern) {
 }
 
 
-// minimum adjust so the elements are target distane apart
-#define maxTarget 100
+// minimum adjust so the elements are target distance apart
+// minimum adjust so the elements are distance apart
+#define maxTarget 100 //    todo
 int minAdjustmentCost(vector<int> a, int target) {
     
     int cur = 0;
@@ -691,16 +767,27 @@ void findCubs(int n) {
     }
 }
 
+// get absolute number
 int getAbs(int n) {
     int mask = n >> 31;
     return ((n^mask) - mask);
 }
 
+// add one
+// plus one
+int addOne(int x)
+{
+    return (-(~x));
+}
+
 // rotate number
+// rotate a number
 int leftRotate(int n, int d) {
     return (n << d| n >> (32 - d));
 }
 
+// book pages
+// count book pages
 int count(int n, int d) {
     int res = 0;
     while (n) {
@@ -782,6 +869,7 @@ void kmpSearch(char *pat, char *txt) {
 
 // minimum edit distance
 // min edit
+// distance apart
 int minDistance(string a, string b) {
     int m = a.size();
     int n = b.size();
@@ -838,6 +926,7 @@ string getPermutation(int n, int k) {
 }
 
 // find the minimum number of platforms for trains
+// buses
 int numberPlatforms(int arr[], int dep[], int n) {
     sort(arr, arr+n);
     sort(dep, arr+n);
@@ -883,6 +972,413 @@ int lis(int arr[], int N)
     
     return s.size();
 }
+
+// Java program to solve nut and bolt problem using Quick Sort
+// nuts and bolts
+public class NutsAndBoltsMatch
+{
+    //Driver method
+    public static void main(String[] args)
+    {
+        // Nuts and bolts are represented as array of characters
+        char nuts[] = {'@', '#', '$', '%', '^', '&'};
+        char bolts[] = {'$', '%', '&', '^', '@', '#'};
+        
+        // Method based on quick sort which matches nuts and bolts
+        matchPairs(nuts, bolts, 0, 5);
+        
+        System.out.println("Matched nuts and bolts are : ");
+        printArray(nuts);
+        printArray(bolts);
+    }
+    
+    // Method to print the array
+    private static void printArray(char[] arr) {
+        for (char ch : arr){
+            System.out.print(ch + " ");
+        }
+        System.out.print("\n");
+    }
+    
+    // Method which works just like quick sort
+    private static void matchPairs(char[] nuts, char[] bolts, int low,
+                                   int high)
+    {
+        if (low < high)
+        {
+            // Choose last character of bolts array for nuts partition.
+            int pivot = partition(nuts, low, high, bolts[high]);
+            
+            // Now using the partition of nuts choose that for bolts
+            // partition.
+            partition(bolts, low, high, nuts[pivot]);
+            
+            // Recur for [low...pivot-1] & [pivot+1...high] for nuts and
+            // bolts array.
+            matchPairs(nuts, bolts, low, pivot-1);
+            matchPairs(nuts, bolts, pivot+1, high);
+        }
+    }
+}
+
+/* Fnction to check if n is a multiple of 3*/
+int isMultipleOf3(int n)
+{
+    int odd_count = 0;
+    int even_count = 0;
+    
+    /* Make no positive if +n is multiple of 3
+     then is -n. We are doing this to avoid
+     stack overflow in recursion*/
+    if(n < 0)   n = -n;
+    if(n == 0) return 1;
+    if(n == 1) return 0;
+    
+    while(n)
+    {
+        /* If odd bit is set then
+         increment odd counter */
+        if(n & 1)
+            odd_count++;
+        n = n>>1;
+        
+        /* If even bit is set then
+         increment even counter */
+        if(n & 1)
+            even_count++;
+        n = n>>1;
+    }
+    
+    return isMultipleOf3(abs(odd_count - even_count));
+}
+
+// Bitwise operator based function to check divisibility by 9
+// divisible by 9
+bool isDivBy9(int n)
+{
+    // Base cases
+    if (n == 0 || n == 9)
+        return true;
+    if (n < 9)
+        return false;
+    
+    // If n is greater than 9, then recur for [floor(n/9) - n%8]
+    return isDivBy9((int)(n>>3) - (int)(n&7));
+}
+
+// A number of the form 10a + b is divisible by 7 if and only if a – 2b is divisible by 7.
+int isDivisibleBy7( int num )
+{
+    // If number is negative, make it positive
+    if( num < 0 )
+        return isDivisibleBy7( -num );
+    
+    // Base cases
+    if( num == 0 || num == 7 )
+        return 1;
+    if( num < 10 )
+        return 0;
+    
+    // Recur for ( num / 10 - 2 * num % 10 )
+    return isDivisibleBy7( num / 10 - 2 * ( num - num / 10 * 10 ) );
+}
+
+// hilbert curve
+//convert (x,y) to d
+int xy2d (int n, int x, int y) {
+    int rx, ry, s, d=0;
+    for (s=n/2; s>0; s/=2) {
+        rx = (x & s) > 0;
+        ry = (y & s) > 0;
+        d += s * s * ((3 * rx) ^ ry);
+        rot(s, &x, &y, rx, ry);
+    }
+    return d;
+}
+
+//convert d to (x,y)
+void d2xy(int n, int d, int *x, int *y) {
+    int rx, ry, s, t=d;
+    *x = *y = 0;
+    for (s=1; s<n; s*=2) {
+        rx = 1 & (t/2);
+        ry = 1 & (t ^ rx);
+        rot(s, x, y, rx, ry);
+        *x += s * rx;
+        *y += s * ry;
+        t /= 4;
+    }
+}
+
+//rotate/flip a quadrant appropriately
+void rot(int n, int *x, int *y, int rx, int ry) {
+    if (ry == 0) {
+        if (rx == 1) {
+            *x = n-1 - *x;
+            *y = n-1 - *y;
+        }
+        
+        //Swap x and y
+        int t  = *x;
+        *x = *y;
+        *y = t;
+    }
+}
+
+// number of occurence
+// frequence of occurence
+/* if x is present in arr[] then returns the index of FIRST occurrence
+ of x in arr[0..n-1], otherwise returns -1 */
+int first(int arr[], int low, int high, int x, int n)
+{
+    if(high >= low)
+    {
+        int mid = (low + high)/2;  /*low + (high - low)/2;*/
+        if( ( mid == 0 || arr[mid] > arr[mid-1]) && arr[mid] == x)
+            return mid;
+        else if(x > arr[mid])
+            return first(arr, (mid + 1), high, x, n);
+        else
+            return first(arr, low, (mid -1), x, n);
+    }
+    return -1;
+}
+
+
+/* if x is present in arr[] then returns the index of LAST occurrence
+ of x in arr[0..n-1], otherwise returns -1 */
+int last(int arr[], int low, int high, int x, int n)
+{
+    if(high >= low)
+    {
+        int mid = (low + high)/2;  /*low + (high - low)/2;*/
+        if( ( mid == n-1 || arr[mid] < arr[mid+1]) && arr[mid] == x )
+            return mid;
+        else if(x < arr[mid])
+            return last(arr, low, (mid -1), x, n);
+        else
+            return last(arr, (mid + 1), high, x, n);
+    }
+    return -1;
+}
+
+// Control
+// CTRL A, CTRL C, CTRL V
+int findMaxK(int n) {
+    int power = 2;
+    double max = 0.0;
+    int maxK = 0;
+    while (n > 0) {
+        n -= 2;
+        double t = (double)n/power;
+        double r = pow(t, (double)power);
+        if (r > max) {
+            maxK = power;
+            max = r;
+        }
+        power++;
+    }
+    return maxK;
+}
+
+unsigned int f(int n) {
+    if (n <= 7) return n;
+    int k = findMaxK(n);
+    
+    int sum = n - 2*(k-1);
+    unsigned int mul = 1;
+    while (k > 0) {
+        int avg = sum/k;
+        mul *= avg;
+        k--;
+        sum -= avg;
+    }
+    
+    assert(sum == 0);
+    
+    return mul;
+}
+
+// Given an array arr[], find the maximum j – i such that arr[j] > arr[i].
+// max difference
+// maximize difference
+int maxIndexDiff(int arr[], int n)
+{
+    int maxDiff = -1;
+    int i, j;
+    
+    for (i = 0; i < n; ++i)
+    {
+        for (j = n-1; j > i; --j)
+        {
+            if(arr[j] > arr[i] && maxDiff < (j - i))
+                maxDiff = j - i;
+        }
+    }
+    
+    return maxDiff;
+}
+
+int maxIndexDiff(int arr[], int n)
+{
+    int maxDiff;
+    int i, j;
+    
+    int *LMin = (int *)malloc(sizeof(int)*n);
+    int *RMax = (int *)malloc(sizeof(int)*n);
+    
+    /* Construct LMin[] such that LMin[i] stores the minimum value
+     from (arr[0], arr[1], ... arr[i]) */
+    LMin[0] = arr[0];
+    for (i = 1; i < n; ++i)
+        LMin[i] = min(arr[i], LMin[i-1]);
+    
+    /* Construct RMax[] such that RMax[j] stores the maximum value
+     from (arr[j], arr[j+1], ..arr[n-1]) */
+    RMax[n-1] = arr[n-1];
+    for (j = n-2; j >= 0; --j)
+        RMax[j] = max(arr[j], RMax[j+1]);
+    
+    /* Traverse both arrays from left to right to find optimum j - i
+     This process is similar to merge() of MergeSort */
+    i = 0, j = 0, maxDiff = -1;
+    while (j < n && i < n)
+    {
+        if (LMin[i] < RMax[j])
+        {
+            maxDiff = max(maxDiff, j-i);
+            j = j + 1;
+        }
+        else
+            i = i+1;
+    }
+    
+    return maxDiff;
+}
+
+// contain duplicate at k distance
+// contain same at k distance
+// Contains Duplicate II
+public boolean containsNearbyDuplicate(int[] nums, int k) {
+    HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+    
+    for(int i=0; i<nums.length; i++){
+        if(map.containsKey(nums[i])){
+            int pre = map.get(nums[i]);
+            if(i-pre<=k)
+                return true;
+        }
+        
+        map.put(nums[i], i);
+    }
+    
+    return false;
+}
+
+// Contains Duplicate III
+// Given an array of integers, find out whether there are two distinct indices i and j in the array such that the difference between nums[i] and nums[j] is at most t and the difference between i and j is at most k.
+public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+    if (k < 1 || t < 0)
+        return false;
+    
+    SortedSet<Long> set = new TreeSet<Long>();
+    
+    for (int j = 0; j < nums.length; j++) {
+        long leftBoundary = (long) nums[j] - t;
+        long rightBoundary = (long) nums[j] + t + 1;
+        SortedSet<Long> subSet = set.subSet(leftBoundary, rightBoundary);
+        
+        if (!subSet.isEmpty())
+            return true;
+        
+        set.add((long) nums[j]);
+        
+        if (j >= k) {
+            set.remove((long) nums[j - k]);
+        }
+    }
+    
+    return false;
+}
+
+// shortest palindrome
+// add in front to create palindrome
+// add strings in front to create palindrome
+// add string in front to create palindrome
+// add char in front to create palindrome
+// add chars in front to create palindrome
+string shortestPalindrome(string s) {
+    string result = "";
+    
+    if(s.length() == 0)
+        return result;
+    string a = s + string(s.rbegin(), s.rend());
+    vector<int> prefix(2 * s.length());
+    for(int i = 1; i < 2 * s.length(); i++) {
+        int j = prefix[i-1];
+        while(j > 0 && a[i] != a[j])
+            j = prefix[j-1];
+        if(a[i] == a[j])
+            j++;
+        prefix[i] = j;
+    }
+    int count = s.length() - equal[2 * s.length()-1];
+    return string(s.rbegin(), s.rbegin() + count) + s;
+}
+
+Say, x is numerical value of a number, then
+~x = -(x+1) [ ~ is for bitwise complement ]
+(x + 1) is due to addition of 1 in 2’s complement conversion
+To get (x + 1) apply negation once again. So, the final expression becomes (-(~x)).
+
+Implement Queue using Stacks
+enQueue(x)
+1) Push x to stack1.
+
+deQueue:
+1) If stack1 is empty then error.
+2) If stack1 has only one element then return it.
+3) Recursively pop everything from the stack1, store the popped item
+in a variable res,  push the res back to stack1 and return res
+
+Implement Stack using Queues
+Method 1 (By making push operation costly)
+This method makes sure that newly entered element is always at the front of ‘q1′, so that pop operation just dequeues from ‘q1′. ‘q2′ is used to put every new element at front of ‘q1′.
+
+push(s, x) // x is the element to be pushed and s is stack
+1) Enqueue x to q2
+2) One by one dequeue everything from q1 and enqueue to q2.
+3) Swap the names of q1 and q2
+// Swapping of names is done to avoid one more movement of all elements
+// from q2 to q1.
+
+pop(s)
+1) Dequeue an item from q1 and return it.
+Method 2 (By making pop operation costly)
+In push operation, the new element is always enqueued to q1. In pop() operation, if q2 is empty then all the elements except the last, are moved to q2. Finally the last element is dequeued from q1 and returned.
+
+push(s,  x)
+1) Enqueue x to q1 (assuming size of q1 is unlimited).
+
+pop(s)
+1) One by one dequeue everything except the last element from q1 and enqueue to q2.
+2) Dequeue the last item of q1, the dequeued item is result, store it.
+3) Swap the names of q1 and q2
+4) Return the item stored in step 2.
+// Swapping of names is done to avoid one more movement of all elements
+// from q2 to q1.
+
+//                0     1
+//                1     2
+//                2     4
+//                3     8
+//                4     16
+//                5     32
+//                6     64
+//                7     128
+//                8     256
+//                9     512
+//                10	1024
 
 // largest subarray with equal number of 0 and 1
 // 0s and 1s

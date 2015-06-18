@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>0CB3AD88-1CEB-4164-86A4-AD8D3C8A8D3E</string>
 	<key>IDESourceControlProjectName</key>
-	<string>Everything</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>8F6DF891708B9FD3A933D468D07003157159E15B</key>
 		<string>https://github.com/zhaoshin/interview_everything.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Everything.xcodeproj</string>
+	<string>Everything.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>8F6DF891708B9FD3A933D468D07003157159E15B</key>

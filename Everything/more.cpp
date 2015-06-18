@@ -19,7 +19,7 @@
 
 using namespace std;
 
-// wild car matching
+// wild card matching
 // ? match any single
 // * match empty to any sequence
 //TODO
@@ -70,7 +70,7 @@ int findFirstMissingPositive(int a[], int n) {
 
 // find the number that occurs twice
 // find duplicate element
-// duplicate number
+// duplicate number todo
 void printRepeating(int arr[], int size)
 {
     int i;
@@ -113,6 +113,32 @@ int trap(int A[], int n) {
     return water;
 }
 
+public static int calculateVolume(int[] land) {
+    
+    int leftMax = 0;
+    int rightMax = 0;
+    int left = 0;
+    int right = land.length - 1;
+    int volume = 0;
+    
+    while(left < right) {
+        if(land[left] > leftMax) {
+            leftMax = land[left];
+        }
+        if(land[right] > rightMax) {
+            rightMax = land[right];
+        }
+        if(leftMax >= rightMax) {
+            volume += rightMax - land[right];
+            right--;
+        } else {
+            volume += leftMax - land[left];
+            left++;
+        }
+    }
+    return volume;
+}
+
 // count and say
 string cas(string str) {
     string res;
@@ -145,6 +171,7 @@ string countAndSay(int n) {
     return res;
 }
 
+// binary search
 // search and insert
 // search insert location
 // search insertion location
@@ -227,7 +254,7 @@ vector<int> findSubstring(string s, vector<string> L) {
     return res;
 }
 
-// Remove Element
+// Remove duplicate Element
 int removeElement(int a[], int n, int element) {
     int i = 0;
     int j = 0;
@@ -256,6 +283,7 @@ void gp(string str, int l, int r) {
     }
 }
 
+// check if brackets are valid
 bool isValid(string s) {
     // Start typing your C/C++ solution below
     // DO NOT write int main() function
@@ -282,7 +310,9 @@ bool isValid(string s) {
     return true;
 }
 
+// recurssion tree
 // letter combination of phone number
+// all possible combinations of phone numbers
 class phoneNumber {
 public:
     string index[8];
@@ -336,6 +366,8 @@ bool twoSum(int a[], int n, int target) {
     return false;
 }
 
+// 3 sum
+// 3sum
 // three sum
 vector<vector<int>> threeSum(vector<int> num) {
     sort(num.begin(), num.end());
@@ -386,8 +418,10 @@ int threeSumClosest(vector<int> num, int target) {
     return closest;
 }
 
+// 4 sum
+// 4sum
 // four sum
-// foursum
+// foursum todo
 vector<vector<int>> fourSum(vector<int> num, int target) {
     map<int, vector<pair<int, int>>> dict;
     
@@ -412,7 +446,7 @@ vector<vector<int>> fourSum(vector<int> num, int target) {
         
         if (dict.find(target-it->first) != dict.end()) {
             
-            // do not consider dup
+            // do not consider duplicates
             if (target - it->first == it->first && sumPair.size() == 1) {
                 continue;
             }
@@ -502,6 +536,27 @@ int reverse (int x) {
     }
     
     return res;
+}
+
+// get the number of digits
+int getNumberofDigits(int num) {
+    int digits = 1;
+    while (num / (digits * 10) > 0) {
+        digits++;
+        num /= 10;
+    }
+    return digits;
+}
+
+// get the maximum number that can be divided
+// get max number
+// get the max number
+int maxDivisible(int num) {
+    int digits = 1;
+    while (num / (digits * 10) > 0) {
+        digits *= 10;
+    }
+    return digits;
 }
 
 // length of longest with only unique

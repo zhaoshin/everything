@@ -8,7 +8,6 @@
 
 #include <stdio.h>
 
-
 // number of occurence
 // frequence of occurence
 /* if x is present in arr[] then returns the index of FIRST occurrence
@@ -120,6 +119,9 @@ int pivot(int a[], int first, int last) {
 }
 
 // select the kth number
+// quick select
+// kth largest
+// kth smallest
 int quick_select(int a[], int l, int r, int k) {
     if (l == r) {
         return a[l];
@@ -138,8 +140,22 @@ int quick_select(int a[], int l, int r, int k) {
     }
 }
 
+void quickSort( int a[], int first, int last )
+{
+    int pivotElement;
+    
+    if(first < last)
+    {
+        pivotElement = pivot(a, first, last);
+        quickSort(a, first, pivotElement-1);
+        quickSort(a, pivotElement+1, last);
+    }
+}
+
 #define RANGE 255
 
+// pigeon
+// radix
 void countSort(int *a, int size) {
     int output[size];
     
@@ -161,18 +177,6 @@ void countSort(int *a, int size) {
         a[i] = output[i];
     }
     
-}
-
-void quickSort( int a[], int first, int last )
-{
-    int pivotElement;
-    
-    if(first < last)
-    {
-        pivotElement = pivot(a, first, last);
-        quickSort(a, first, pivotElement-1);
-        quickSort(a, pivotElement+1, last);
-    }
 }
 
 void merge(int array[], int low, int mid, int high, int &res) {
