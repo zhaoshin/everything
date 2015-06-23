@@ -280,6 +280,8 @@ double angle(int hour, int min) {
 // number conversion
 // convert decimal to binary
 // convert binary to decimal
+// binary to int
+// int to binary
 string decimalToBinary(int n) {
     string res = "";
     
@@ -1003,6 +1005,10 @@ double sameBirthday(int n) {
 // Returns false if no valid window is found. Else returns
 // true and updates minWindowBegin and minWindowEnd with the
 // starting and ending position of the minimum window.
+// smallest window containing all strings
+// smallest window containing all char
+// smallest window contain all char
+// smallest window contain all strings
 bool minWindow(const char* S, const char *T,
                int &minWindowBegin, int &minWindowEnd) {
     int sLen = strlen(S);
@@ -1319,6 +1325,8 @@ int findTrailingZeros(int n) {
 }
 
 // excel string to number
+// 26
+// 25
 int titleToNumber(string s) {
     int result = 0;
     for (int i = 0; i < s.length(); i++) {

@@ -224,7 +224,7 @@ void randomize ( int arr[], int n )
     for (int i = n-1; i > 0; i--)
     {
         int j = rand() % (i+1);
-//        swap(&arr[i], &arr[j]);
+        //        swap(&arr[i], &arr[j]);
     }
 }
 
@@ -262,7 +262,7 @@ unsigned nexthi_same_count_ones(unsigned a) {
     /* works for any word length */
     // right most bit
     unsigned c = (a & -a);
-
+    
     unsigned r = a+c;    // 100100000
     
     // r^a = 000111110
@@ -450,6 +450,8 @@ int getMedianOfTwoArray(int a[], int m, int b[], int n) {
     }
 }
 
+// slide window
+// sliding window
 void maxSlidingWindow(int a[], int n, int w, int b[]) {
     deque<int> q;
     for (int i = 0; i < w; i++) {
@@ -1200,7 +1202,8 @@ unsigned int f(int n) {
 }
 
 // Given an array arr[], find the maximum j – i such that arr[j] > arr[i].
-// max difference
+// max difference under a rule
+// max difference given a rule
 // maximize difference
 int maxIndexDiff(int arr[], int n)
 {
@@ -1325,6 +1328,137 @@ string shortestPalindrome(string s) {
     int count = s.length() - equal[2 * s.length()-1];
     return string(s.rbegin(), s.rbegin() + count) + s;
 }
+
+public String shortestPalindrome(String s) {
+    if (s == null || s.length() <= 1)
+        return s;
+    
+    String result = null;
+    
+    int len = s.length();
+    int mid = len / 2;
+    
+    for (int i = mid; i >= 1; i--) {
+        if (s.charAt(i) == s.charAt(i - 1)) {
+            if ((result = scanFromCenter(s, i - 1, i)) != null)
+                return result;
+        } else {
+            if ((result = scanFromCenter(s, i - 1, i - 1)) != null)
+                return result;
+        }
+    }
+    
+    return result;
+}
+
+private String scanFromCenter(String s, int l, int r) {
+    int i = 1;
+    
+    //scan from center to both sides
+    for (; l - i >= 0; i++) {
+        if (s.charAt(l - i) != s.charAt(r + i))
+            break;
+    }
+    
+    //if not end at the beginning of s, return null
+    if (l - i >= 0)
+        return null;
+    
+    StringBuilder sb = new StringBuilder(s.substring(r + i));
+    sb.reverse();
+    
+    return sb.append(s).toString();
+}
+
+// Minimum Size Subarray Sum
+// slide window
+// http://blog.csdn.net/lisonglisonglisong/article/details/45666975
+int minSubArrayLen(int s, vector<int>& nums) {
+    int len = nums.size();
+    if(len == 0) return 0; // 数组为空
+    int minlen = INT_MAX;
+    int sum = 0;
+    
+    int left = 0;          // 滑动窗口的左右边沿
+    int right = -1;
+    while(right < len)
+    {
+        while(sum < s && right < len)
+            sum += nums[++right];  // 向右延伸
+        if(sum >= s)
+        {
+            minlen = minlen < right-left+1 ? minlen : right-left+1;
+            sum -= nums[left++];
+        }
+    }
+    return minlen > len ? 0 : minlen;
+}
+
+// tower of hanoi
+void hanoi(int diskSize, int source, int dest, int spare)
+{
+    //This is our standard termination case. We get to here when we are operating on the
+    //smallest possible disk.
+    if(diskSize == 0)
+    {
+        std::cout << "Move disk " << diskSize << " from peg " << source << " to peg " << dest << endl;
+    }
+    else
+    {
+        //Move all disks smaller than this one over to the spare.
+        //So if diskSize is 5, we move 4 disks to the spare. This leaves us with 1 disk
+        //on the source peg.
+        //Note the placement of the params.
+        //We are now using the dest peg as the spare peg. This causes each recursion to ping-pong
+        //the spare and dest pegs.
+        hanoi(diskSize - 1, source, spare, dest);
+        
+        //Move the remaining disk to the destination peg.
+        std::cout << "Move disk "  << diskSize << " from peg " << source << " to peg " << dest << endl;
+        
+        //Move the disks we just moved to the spare back over to the dest peg.
+        hanoi(diskSize - 1, spare, dest, source);
+    }
+}
+
+// simple calculator
+//"1 + 1" = 2
+//" 2-1 + 2 " = 3
+//"(1+(4+5+2)-3)+(6+8)" = 23
+public:
+int calculate(string s) {
+    stack<int> stk_val;
+    stack<char> stk_op;
+    int res = 0, tmp;
+    for (int i = 0; i <= s.length(); ++i) {
+        //操作数
+        if (i < s.length() && isdigit(s[i])) {
+            res = 0;
+            while (i < s.length() && isdigit(s[i])) {
+                res *= 10;
+                res += s[i++] - '0';
+            }
+            stk_val.push(res);
+        }
+        //运算符
+        if (i == s.length() || s[i] == '+' || s[i] == '-' || s[i] == ')') {
+            while (!stk_op.empty() && stk_op.top() != '(') {
+                tmp = stk_val.top();
+                stk_val.pop();
+                if (stk_op.top() == '+') stk_val.top() += tmp;
+                else if (stk_op.top() == '-') stk_val.top() -= tmp;
+                stk_op.pop();
+            }
+            if (i == s.length()) break;
+            else if (s[i] == ')') stk_op.pop();
+            else stk_op.push(s[i]);
+        } else if (s[i] == '(') {
+            stk_op.push(s[i]);
+        }
+    }
+    return stk_val.top();
+}
+};
 
 Say, x is numerical value of a number, then
 ~x = -(x+1) [ ~ is for bitwise complement ]

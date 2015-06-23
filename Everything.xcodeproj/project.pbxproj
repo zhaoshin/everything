@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C9F820371B33E363009BF46A /* DeckOfCards.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9F820351B33E363009BF46A /* DeckOfCards.cpp */; };
+		C9F820391B347494009BF46A /* findDupInFolder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9F820381B347494009BF46A /* findDupInFolder.cpp */; };
 		EC3486E51ABBD90E00465ED2 /* sort.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EC3486E41ABBD90E00465ED2 /* sort.cpp */; };
 		EC6190CA1AB63C690028160C /* more.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EC6190C91AB63C690028160C /* more.cpp */; };
 		EC800EBD1AAC148700F57880 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EC800EBC1AAC148700F57880 /* main.cpp */; };
@@ -28,6 +30,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C9F820351B33E363009BF46A /* DeckOfCards.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DeckOfCards.cpp; sourceTree = "<group>"; };
+		C9F820361B33E363009BF46A /* DeckOfCards.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeckOfCards.h; sourceTree = "<group>"; };
+		C9F820381B347494009BF46A /* findDupInFolder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = findDupInFolder.cpp; sourceTree = "<group>"; };
 		EC3486E41ABBD90E00465ED2 /* sort.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sort.cpp; sourceTree = "<group>"; };
 		EC5635F81AAD5F4100F84931 /* medianStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = medianStream.h; sourceTree = "<group>"; };
 		EC6190C91AB63C690028160C /* more.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = more.cpp; sourceTree = "<group>"; };
@@ -77,6 +82,9 @@
 				EC862E0D1ABE1629004512E6 /* LRUCache.cpp */,
 				ECD708F81AD4D11300BDB4B5 /* RealTimeCounter.cpp */,
 				ECD708FB1AD4D66100BDB4B5 /* concepts.h */,
+				C9F820351B33E363009BF46A /* DeckOfCards.cpp */,
+				C9F820361B33E363009BF46A /* DeckOfCards.h */,
+				C9F820381B347494009BF46A /* findDupInFolder.cpp */,
 			);
 			path = Everything;
 			sourceTree = "<group>";
@@ -138,11 +146,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC862E0E1ABE1629004512E6 /* LRUCache.cpp in Sources */,
+				C9F820391B347494009BF46A /* findDupInFolder.cpp in Sources */,
 				EC6190CA1AB63C690028160C /* more.cpp in Sources */,
 				EC3486E51ABBD90E00465ED2 /* sort.cpp in Sources */,
 				ECD708F91AD4D11300BDB4B5 /* RealTimeCounter.cpp in Sources */,
 				EC8995791ABA0FB100837EF9 /* andMore.cpp in Sources */,
 				EC800EBD1AAC148700F57880 /* main.cpp in Sources */,
+				C9F820371B33E363009BF46A /* DeckOfCards.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
